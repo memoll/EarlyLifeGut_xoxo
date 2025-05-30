@@ -58,7 +58,6 @@ fit_data_age_ref18m$results <- fit_data_age_ref18m$results %>%
   left_join(df_taxa, by = "feature"); dim(fit_data_age_ref18m$results)
 head(fit_data_age_ref18m$results)
 
-#FINAL RESULTS ####
 #keep only significant results
 age_ref18m_res.sig = fit_data_age_ref18m$results[which(fit_data_age_ref18m$results$sig != ""),]; age_ref18m_res.sig; dim(age_ref18m_res.sig)
 unique(age_ref18m_res.sig$Genus); length(unique(age_ref18m_res.sig$Genus))
@@ -67,7 +66,6 @@ age_ref18m_res.sig %>%
   summarize(n = n()) %>%
   arrange(desc(n))
 
-#RESULTS#### 
 # 18 vs 6 ####
 age_ref18m_res.sig_6m = age_ref18m_res.sig[which(age_ref18m_res.sig$value == "1-6 Months"),]; age_ref18m_res.sig_6m; dim(age_ref18m_res.sig_6m)
 unique(age_ref18m_res.sig_6m$Genus); length(unique(age_ref18m_res.sig_6m$Genus))
@@ -179,7 +177,6 @@ age_ref6m_res.sig %>%
   count(Phylum) %>%
   arrange(desc(n))
 
-#RESULTS#### 
 # 6 vs 12 ####
 age_ref6m_res.sig_12m = age_ref6m_res.sig[which(age_ref6m_res.sig$value == "7-12 Months"),]; age_ref6m_res.sig_12m; dim(age_ref6m_res.sig_12m)
 unique(age_ref6m_res.sig_12m$Genus); length(unique(age_ref6m_res.sig_12m$Genus))
