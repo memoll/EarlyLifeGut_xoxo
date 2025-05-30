@@ -196,11 +196,10 @@ plot_ordination(ps_bbs_bac, nmds, color = "MONTH", shape = "BIRTH") +
 #2. alpha diversity ####
 alpha.shn = estimate_richness(ps_bbs_bac, split=TRUE, measures="Shannon") 
 summary(alpha.shn)
-plot_richness(ps_bbs_bac, "INFANT_ID","MONTH", measures = c("Shannon","Simpson")) +
+plot_richness(ps_bbs_bac, "INFANT_ID","MONTH", measures = c("Shannon")) +
   geom_text(aes(label = SAMPLE_ID), check_overlap = FALSE, size = 3)
 
 adiv <- data.frame(
-  "Simpson" = phyloseq::estimate_richness(ps_bbs_bac, measures = "Simpson"),
   "Shannon" = phyloseq::estimate_richness(ps_bbs_bac, measures = "Shannon"))
 head(adiv)
 
@@ -209,27 +208,13 @@ head(adiv)
 # However, you shouldn't have been doing that with the output of other methods either, as the high levels of FP singletons made richness estimates wrong anyway. Right now, I don't think a method exists that can make valid richness estimates from high-throughput amplicon data due to the difficulty of calling singletons accurately, and the sensitivity of richness estimation to the number of singletons.
 # Other measures of diversity that aren't totally reliant on singletons, eg. Shannon/Simpson, are valid to use, and you can ignore the warning in phyloseq when calculating those measures.
 
-adiv %>%
-  gather(key = metric, value = value, c("Simpson", "Shannon")) %>%
-  mutate(metric = factor(metric, levels = c("Simpson", "Shannon"))) %>%
-  ggplot(aes(x = metric, y = value)) +
-  geom_boxplot(outlier.color = NA) +
-  geom_jitter(aes(color = metric), height = 0, width = .2) +
-  labs(x = "", y = "") +
-  facet_wrap(~ metric, scales = "free") +
-  theme(legend.position="none")
-
-# While Simpson's index cares more about relative abundances, the Shannon index cares more about species richness
-# So the importance of rare species decreases in order species richness > Shannon index > Simpson index
-
 #Outlier removal based on alpha diversity####
-plot_richness(ps_bbs_bac, x = "BIRTH", color = "BIRTH", measures = c("Simpson", "Shannon")) +
+plot_richness(ps_bbs_bac, x = "BIRTH", color = "BIRTH", measures = c("Shannon")) +
   geom_boxplot(outlier.color = NA) +
   geom_text(aes(label = SAMPLE_ID)) +
   #geom_jitter(aes(color = BIRTH), height = 0, width = .2) +
   theme_bw() 
 hist(adiv$Shannon)
-hist(adiv$Simpson)
 
 shn_bbs_bac = estimate_richness(ps_bbs_bac, split=TRUE, measures="Shannon") 
 
@@ -640,7 +625,7 @@ pcoa_bac_birth_age = plot_ordination(
     axis.title = element_text(size = 16, face="bold"),
     strip.text = element_text(size = 14, face="bold")); pcoa_bac_birth_age
 
-#Temporal Shannon & Simpson Diversity ####
+#Temporal Shannon Diversity ####
 # Transformation to achieve normality 
 shapiro.test(shn.rich$Shannon)
 shn.rich %>%
@@ -648,7 +633,7 @@ shn.rich %>%
   shapiro_test(Shannon)
 #shn.rich$Shannon_norm = sqrt(shn.rich$Shannon) #OR log(metadata$Shannon)
 library(readxl)
-#LLM shannon - infant ID is random effect
+#LLM Shannon - infant ID is a random effect
 shn.rich$MONTH <- as.numeric(as.character(shn.rich$MONTH))
 
 lmm.shn.mnt.brt <- lmer(Shannon ~ MONTH + BIRTH + (1 | INFANT_ID), data = shn.rich)
@@ -846,5 +831,3 @@ p.disper.birth <- ggplot(emm_disp.brt, aes(x = BIRTH, y = emmean, fill=as.factor
 
 #save
 save.image("~/Documents/xoxo_article/files/metaphlan4/b1_xoxo_metagenome_cleaning_expl.RData")
-
-
