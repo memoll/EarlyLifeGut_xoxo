@@ -5,7 +5,7 @@
 # Mona Parizadeh - May 2025                                   #
 ###############################################################
 
-# Load library ####
+# Load libraries ####
 library(dada2); packageVersion("dada2") 
 require(parallel)
 library(phyloseq); packageVersion("phyloseq") 
@@ -38,7 +38,7 @@ allOrients <- function(primer) {
 FWD.orients <- allOrients(FWD)
 REV.orients <- allOrients(REV)
 FWD.orients
-#pre-filter the sequences to remove the with Ns
+#pre-filter the sequences to remove those w/ Ns
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) # Put N-filtered files in filtN/ subdirectory
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
@@ -59,7 +59,7 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]), 
 cutFs <- sort(list.files(path, pattern = "_L001_R1_001.fastq.gz", full.names = TRUE))
 cutRs <- sort(list.files(path, pattern = "_L001_R2_001.fastq.gz", full.names = TRUE))
 
-# Extract sample names, assuming filenames have format:
+# Extract sample names, assuming filenames have the format:
 get.sample.name <- function(fname) strsplit(basename(fname), "_")[[1]][1]
 sample.names <- unname(sapply(cutFs, get.sample.name))
 head(sample.names)
@@ -124,7 +124,7 @@ seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE
 # Chimera is a PCR artifact (human-made), while sequencing a 16S region gene, primer starts amplifying the region, but at some point it'll fall off and not go all the way through, making an oligo that can later be used to prime another completely unrelated 16S region. So we'll get the amplicons that are actually fusions of two or more parent sequences
 # The algorithm will start from the least abundant reads and will test all the combinations with all the more abundant sequences to see if there's any overlap
 # A bimera is a two-parent chimera, in which the left side is made up of one parent sequence, and the right-side made up of a second parent sequence.
-# if half of the reads are being removed as chimera, we probably still have primers on our samples.
+# if half of the reads are being removed as chimeras, we probably still have primers on our samples.
 #dim(seqtab.nochim) 
 sum(seqtab.nochim)/sum(seqtab) 
 #Most of your reads should remain after chimera removal (it is not uncommon for a majority of sequence variants to be removed though). If most of your reads were removed as chimeric, upstream processing may need to be revisited. In almost all cases this is caused by primer sequences with ambiguous nucleotides that were not removed prior to beginning the DADA2 pipeline.
@@ -193,6 +193,5 @@ sample_data(ps)[52,4]
 
 # save
 saveRDS(ps, file="~/Documents/xoxo_article/files/18s/ps_xoxo_18s.rds")
-
 save.image("~/Documents/xoxo_article/files/18s/a1_xoxo_18s_dada2.RData")
 
