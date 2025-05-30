@@ -1,6 +1,6 @@
 ###############################################################
 # Differential analysis of 18S data - MaAsLin2                #
-# Data: Miseq-18S- xoxo.                                      # 
+# Data: Miseq-18S- xoxo                                      # 
 # Mona Parizadeh - May 2025                                   #
 ###############################################################
 
