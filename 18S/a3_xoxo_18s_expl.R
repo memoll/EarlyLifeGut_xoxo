@@ -31,18 +31,8 @@ saveRDS(ps,"ps_xoxo_18s_noXC10.rds")
 #Richness ####
 #Alpha diversity measures ####
 adiv <- data.frame(
-  "Simpson" = phyloseq::estimate_richness(ps, measures = "Simpson"),
   "Shannon" = phyloseq::estimate_richness(ps, measures = "Shannon"))
 head(adiv)
-adiv %>%
-  gather(key = metric, value = value, c("Simpson", "Shannon")) %>%
-  mutate(metric = factor(metric, levels = c("Simpson", "Shannon"))) %>%
-  ggplot(aes(x = metric, y = value)) +
-  geom_boxplot(outlier.color = NA) +
-  geom_jitter(aes(color = metric), height = 0, width = .2) +
-  labs(x = "", y = "") +
-  facet_wrap(~ metric, scales = "free") +
-  theme(legend.position="none")
 
 #shannon
 shn.rich = cbind(estimate_richness(ps,measures = 'shannon'),
@@ -178,61 +168,6 @@ img_shn_birth<- ggplot(emm_shn.brt, aes(x = BIRTH, y = emmean, fill=as.factor(BI
         legend.position="none",
         axis.text.x=element_text(size=22, color="black",vjust = 5,face="bold"),
         axis.text.y=element_text(size=22, color="black")); img_shn_birth
-
-#FIGURE - supp
-img_smp_birth = ggplot(smp.rich, aes(x = BIRTH, y = Simpson, color=BIRTH, fill=BIRTH)) + #alpha: color intensity)) 
-  theme_bw() +
-  geom_boxplot(col="black",size=0.2) + 
-  scale_color_manual(name = "BIRTH", values = c("#59A1A0","#8c6bb1"),
-                     labels = c(Csec = "C-Section", VAGINAL = "Vaginal Birth")) +
-  scale_fill_manual(name = "BIRTH", values = c("#59A1A0","#8c6bb1"),
-                    labels = c(Csec = "C-Section", VAGINAL = "Vaginal Birth")) +
-  scale_x_discrete(labels = c(Csec = "C-Section", VAGINAL = "Vaginal Birth")) +
-  ggpubr::stat_compare_means(method = "wilcox.test", size = 4, label.x.npc = 0.25) +
-  geom_jitter(col = "black", alpha=0.5, size = 0.5) +
-  labs(x = "Mode of Birth", y = "Eukaryotic Alpha Diversity (Simpson Index)", color = "Mode of Birth") +
-  theme(plot.title = element_text(size = 14, face = "bold"),
-        axis.text.x = element_text(size = 10, hjust = 0.5, vjust=0.5),
-        axis.title = element_text( size = 12, face = "bold"),
-        legend.title = element_text(size=12, face="bold"),
-        legend.text=element_text(size=12),
-        legend.position = "none")+
-  #geom_text(aes(label = SAMPLE_ID), check_overlap = FALSE, size = 3) +
-  annotate("text", x = 1.5, y = 0.94, label = "ns", size = 4, color = "black"); img_smp_birth  
-
-#FIGURE - supp 
-img_shn_sex = ggplot(shn.rich, aes(x = SEX, y = Shannon, color=SEX, fill=SEX)) + #alpha: color intensity)) 
-  theme_bw() +
-  geom_boxplot(col="black",size=0.2) + 
-  scale_color_manual(name = "SEX", values = c("#4f5c0f","#aac242"))+
-  scale_fill_manual(name = "SEX", values = c("#4f5c0f","#aac242"))+
-  ggpubr::stat_compare_means(method = "wilcox.test", size = 4, label.x.npc = 0.25) +
-  geom_jitter(col = "black", alpha=0.5, size = 0.5) +
-  labs(x = "", y = "Eukaryotic Alpha Diversity (Shannon Index)", color = "Sex") +
-  theme(plot.title = element_text(size = 14, face = "bold"),
-        axis.text.x = element_text(size = 10, hjust = 0.5, vjust=0.5),
-        axis.title = element_text( size = 12, face = "bold"),
-        legend.title = element_text(size=12, face="bold"),
-        legend.text=element_text(size=12),
-        legend.position = "none") +
-  annotate("text", x = 1.5, y = 3.7, label = "ns", size = 4, color = "black"); img_shn_sex 
-
-#FIGURE - supp 
-img_smp_sex = ggplot(smp.rich, aes(x = SEX, y = Simpson, color=SEX, fill=SEX)) + #alpha: color intensity)) 
-  theme_bw() +
-  geom_boxplot(col="black",size=0.2) + 
-  scale_color_manual(name = "SEX", values = c("#4f5c0f","#aac242"))+
-  scale_fill_manual(name = "SEX", values = c("#4f5c0f","#aac242"))+
-  ggpubr::stat_compare_means(method = "wilcox.test", size = 4, label.x.npc = 0.25) +
-  geom_jitter(col = "black", alpha=0.5, size = 0.5) +
-  labs(x = "Sex", y = "Eukaryotic Alpha Diversity (Simpson Index)", color = "Mode of Birth") +
-  theme(plot.title = element_text(size = 14, face = "bold"),
-        axis.text.x = element_text(size = 10, hjust = 0.5, vjust=0.5),
-        axis.title = element_text( size = 12, face = "bold"),
-        legend.title = element_text(size=12, face="bold"),
-        legend.text=element_text(size=12),
-        legend.position = "none")+
-  annotate("text", x = 1.5, y = 0.94, label = "ns", size = 4, color = "black"); img_smp_sex  
 
 #PERMANOVA ####
 #make dataframe
@@ -395,48 +330,6 @@ pcoa_euk_birth_age = plot_ordination(
     strip.text = element_text(size = 13, face="bold")); pcoa_euk_birth_age
 #save_plot("~/Documents/xoxo_article/images/xoxo_18s_pcoa_birth_age.pdf",pcoa_euk_birth_age)
 
-pcoa_euk_sex = plot_ordination(
-  physeq = ps,                                                        
-  ordination = pcoa)+       
-  #group by birth
-  stat_ellipse(geom = "polygon",aes(group = SEX, fill=SEX), level = 0.95, linetype = "dashed", alpha = 0.4) + 
-  geom_point(aes(fill = SEX, shape = SEX), size = 3) +    
-  scale_fill_manual(name="Sex", values = c("#4f5c0f","#aac242"))+
-  scale_shape_manual(name="Mode of Birth", values = c(21, 22))+
-  theme_classic() +  
-  labs(title = "Bray-Curtis Dissimilarity",
-       x = paste0("PCoA1 (", round(PCoA_comm_mat$CA$eig[1:1]/sum(PCoA_comm_mat$CA$eig)*100,digits=1), "%)"), 
-       y = paste0("PCoA2 (", round(PCoA_comm_mat$CA$eig[2:1]/sum(PCoA_comm_mat$CA$eig)*100,digits=1), "%)"))+ 
-  theme(                             
-    legend.text = element_text(size = 12),      
-    legend.title = element_text(size = 12, face="bold"),
-    legend.position = "none",
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12, face="bold"),
-    title = element_text(size = 12, face="bold")) +
-  annotate("text", x = 0.3, y = -0.55, label = "paste(italic(R) ^ 2, \" = 0.011; \", italic(p), \" < 0.05*\")", parse = TRUE, size = 4, color = "black"); pcoa_euk_sex
-#save_plot("~/Documents/xoxo_article/images/xoxo_18s_pcoa_sex.pdf",pcoa_euk_sex)
-
-pcoa_euk_sex_age = plot_ordination(
-  physeq = ps,                                                        
-  ordination = pcoa)+       
-  #group by birth
-  stat_ellipse(geom = "polygon",aes(group = SEX, fill=SEX), level = 0.95, linetype = "dashed", alpha = 0.4) + 
-  geom_point(aes(fill = SEX, shape = SEX), size = 2) +    
-  scale_fill_manual(name="Sex", values =  c("#4f5c0f","#aac242"))+
-  scale_shape_manual(name="Sex", values = c(21, 22))+
-  facet_wrap(~MONTH_GROUP, ncol = 1, strip.position = "top") +
-  theme_classic() +  
-  labs(x = paste0("PCoA1 (", round(PCoA_comm_mat$CA$eig[1:1]/sum(PCoA_comm_mat$CA$eig)*100,digits=1), "%)"), 
-       y = paste0("PCoA2 (", round(PCoA_comm_mat$CA$eig[2:1]/sum(PCoA_comm_mat$CA$eig)*100,digits=1), "%)"))+ 
-  theme(                             
-    legend.text = element_text(size = 12),      
-    legend.title = element_text(size = 12, face="bold"),
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12, face="bold"),
-    strip.text = element_text(size = 10, face="bold")); pcoa_euk_sex_age
-#save_plot("~/Documents/xoxo_article/images/xoxo_18s_pcoa_sex_age.pdf",pcoa_euk_sex_age)
-
 # Homogeneity of dispersion test ####
 comm = as.matrix(otu_table(ps))
 metadata = data.frame(sample_data(ps))
@@ -557,7 +450,7 @@ p.disper.birth <- ggplot(emm_disp.brt, aes(x = BIRTH, y = emmean, fill=as.factor
         axis.text.x=element_text(size=22, color="black",vjust = 5,face="bold"),
         axis.text.y=element_text(size=22, color="black")); p.disper.birth
 
-#Temporal Shannon & Simpson Diversity ####
+#Temporal Shannon & Diversity ####
 # Transformation to achieve normality 
 shapiro.test(shn.rich$Shannon)
 shn.rich %>%
@@ -653,45 +546,14 @@ result.shn.sex <- permuspliner(data = shn.rich, x = 'MONTH', y = 'Shannon',
 result.shn.sex$pval < 0.05 #ns
 permuspliner.plot.permsplines(result.shn.sex, xvar="MONTH", yvar="Shannon")
 
-#shannon
-img_shn_mnt_sex = ggplot(data = shn.rich %>%
-                           arrange(MONTH, Shannon) %>%
-                           dplyr::slice(1:nrow(.)), 
-                         mapping = aes(x = MONTH, y = Shannon, color = SEX, fill = SEX)) +
-  scale_x_continuous(breaks = 1:18) +
-  theme_light() +
-  geom_smooth(aes(group=SEX), alpha=0.3) +
-  scale_color_manual(name = "Sex", values =  c("#4f5c0f","#aac242"))+
-  scale_fill_manual(name = "Sex", values =  c("#4f5c0f","#aac242"))+
-  scale_x_continuous(breaks = 1:18) +
-  geom_jitter(alpha=0.5, size = 1) +
-  labs(x = "", y = "", color = "Sex") +
-  theme(plot.title = element_text(size = 14, face = "bold"),
-        axis.text.x = element_text(size = 8, hjust = 0, vjust=0.5),
-        axis.title = element_text( size = 12, face = "bold"),
-        legend.title = element_text(size=12, face="bold"),
-        legend.text=element_text(size=12),
-        legend.position = "none") +
-  annotate("text", x = 9, y = 4.5, label = "paste(italic(p), \" = ns\")", parse = TRUE, size = 4, color = "black"); img_shn_mnt_sex
-
 #%FUNGI ####
 ps.fun = subset_taxa(ps, Order == "Fungi")
 ps.fun = prune_samples(sample_sums(ps.fun)>0,ps.fun);ps.fun
 
 #Alpha diversity measures ####
 adiv.fun <- data.frame(
-  "Simpson" = phyloseq::estimate_richness(ps.fun, measures = "Simpson"),
   "Shannon" = phyloseq::estimate_richness(ps.fun, measures = "Shannon"))
 head(adiv.fun)
-adiv.fun %>%
-  gather(key = metric, value = value, c("Simpson", "Shannon")) %>%
-  mutate(metric = factor(metric, levels = c("Simpson", "Shannon"))) %>%
-  ggplot(aes(x = metric, y = value)) +
-  geom_boxplot(outlier.color = NA) +
-  geom_jitter(aes(color = metric), height = 0, width = .2) +
-  labs(x = "", y = "") +
-  facet_wrap(~ metric, scales = "free") +
-  theme(legend.position="none")
 
 #shannon
 shn.fun.rich = cbind(estimate_richness(ps.fun,measures = 'shannon'),
@@ -816,7 +678,7 @@ img_shn.fun_birth<- ggplot(emm_shn.fun.brt, aes(x = BIRTH, y = emmean, fill=as.f
         axis.text.x=element_text(size=22, color="black",vjust = 5,face="bold"),
         axis.text.y=element_text(size=22, color="black")); img_shn.fun_birth
 
-#Temporal Shannon & Simpson Diversity ####
+#Temporal Shannon Diversity ####
 shapiro.test(shn.fun.rich$Shannon)
 shn.fun.rich %>%
   group_by(BIRTH) %>%
