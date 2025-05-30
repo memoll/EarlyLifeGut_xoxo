@@ -532,13 +532,6 @@ img_shn_mnt_birth =
         axis.text.x=element_text(size=22, color="black",vjust = 2,face="bold"),
         axis.text.y=element_text(size=22, color="black")); img_shn_mnt_birth #result.shn$pval
 
-library(patchwork)
-img_shn_mnt_birth_leg = img_shn_mnt_birth + plot_spacer() +
-  #plot_layout(widths = c(0.8)) +
-  plot_annotation(tag_levels = list(c('G'), '1')) & 
-  theme(legend.position = c(0.75,0.15),
-        plot.tag = element_text(size = 40, face = "bold")); img_shn_mnt_birth_leg
-
 #shannon - sex
 set.seed(112)
 result.shn.sex <- permuspliner(data = shn.rich, x = 'MONTH', y = 'Shannon',
