@@ -250,33 +250,6 @@ legend(x = -1.4, y = 1.23, cex = 3,bty = "n", y.intersp=0.5,x.intersp=0.5,
 
 p.net_age_12m$q1$Arguments$cut
 
-#poster
-plot(props_age_12m, 
-     edgeInvisPar = 1, 
-     negDiffCol = TRUE, #if TRUE, show both pos and neg
-     posCol = "#6fc7c7", 
-     negCol = "#c4b3b9",
-     edgeTranspLow = 0,
-     edgeTranspHigh = 20,
-     nodeColor = "feature", 
-     featVecCol = featVec_12m, 
-     colorVec = c("#225ea8","#dd1c77","#31a354","#88419d","#59A1A0","#eded02","#980043"),
-     nodeTransp = 20,
-     labels = labels_12m,
-     nodeSize = "normCounts",#"eigenvector" 
-     repulsion = 1.2, #Place the nodes further apart
-     rmSingles = TRUE, #removes singletons
-     labelScale = FALSE,#labelLength = 14, #labelScale = TRUE, 
-     cexLabels = 0.5, cexHubLabels = 1.2, 
-     nodeSizeSpread = 15, cexNodes = 2,
-     usePCH = TRUE, #avoid rescaling (prevent circles of becoming ovals)
-     hubBorderCol = "red", borderWidth = 1.5,
-     labelFont = 3, hubLabelFont = 4, #1:plain,2:bold,3:italic,4:bold&italic
-     nodeShape = c("circle", "triangle"), featVecShape = shapeVec_12m, 
-     title1 = "7-12 Months\n",
-     mar = c(2,7,2,7), #margin
-     showTitle = TRUE, cexTitle = 2) 
-
 #% 13-18 months ####
 net_age_18m = netConstruct(data = ps.18m, 
                            filtTax = "highestVar",
@@ -376,33 +349,6 @@ legend(x = 1, y = 0, cex = 1.2,bty = "n", y.intersp=0.35,x.intersp=0.5,
 
 p.net_age_18m$q1$Arguments$cut
 
-#poster
-plot(props_age_18m, 
-     edgeInvisPar = 1, 
-     negDiffCol = TRUE, #if TRUE, show both pos and neg
-     posCol = "#6fc7c7", 
-     negCol = "#c4b3b9",
-     edgeTranspLow = 0,
-     edgeTranspHigh = 20,
-     nodeColor = "feature", 
-     featVecCol = featVec_18m, 
-     colorVec = c("#225ea8","#dd1c77","#31a354","#eded02"),
-     nodeTransp = 20,
-     labels = labels_18m,
-     nodeSize = "normCounts",#"eigenvector" 
-     repulsion = 1.2, #Place the nodes further apart
-     rmSingles = TRUE, #removes singletons
-     labelScale = FALSE,#labelLength = 14, #labelScale = TRUE, 
-     cexLabels = 0.5, cexHubLabels = 1.2, 
-     nodeSizeSpread = 15, cexNodes = 2,
-     usePCH = TRUE, #avoid rescaling (prevent circles of becoming ovals)
-     hubBorderCol = "red", borderWidth = 1.5,
-     labelFont = 3, hubLabelFont = 4, #1:plain,2:bold,3:italic,4:bold&italic
-     nodeShape = c("circle", "triangle"), featVecShape = shapeVec_18m, 
-     title1 = "13-18 Months\n",
-     mar = c(2,7,2,7), #margin
-     showTitle = TRUE, cexTitle = 2) 
-
 #Compare Networks ####
 #% 6 vs 12 months ####
 # Network construction ####
@@ -465,15 +411,12 @@ plot(props_age_6vs12m,
 p.net_age_6vs12m = plot(props_age_6vs12m, 
                         edgeInvisPar = 1, 
                         negDiffCol = TRUE, #if TRUE, show both pos and neg
-                        posCol = "#6fc7c7", #"#008080",
+                        posCol = "#6fc7c7", 
                         negCol = "#c4b3b9",
                         edgeTranspLow = 0,
                         edgeTranspHigh = 20,
                         nodeColor = "cluster", 
-                        #featVecCol = featVec_6vs12m, 
                         colorVec = c("#e0a00b","#59A1A0","#fc085d","#68477a","#225ea8","#980043"),#mutual nodes between clusters:2
-                        #colorVec = c("#e0a00b","#acb872","#59A1A0","#e04f0b","#fc085d","#bd7abf","#68477a","#225ea8","#4b0ee6","#980043"),#,#mutual nodes between clusters:3
-                        #colorVec = c("#225ea8","#88419d","#31a354","#fc085d","#fcc308"),#nodes from each cluster have the same color
                         sameClustCol = TRUE,#clusters having at least sameColThresh nodes in common have the same color
                         sameColThresh = 2,#number of nodes a cluster must have in common in the two groups to have the same color
                         nodeTransp = 20,
@@ -490,12 +433,8 @@ p.net_age_6vs12m = plot(props_age_6vs12m,
                         nodeShape = c("circle", "triangle"), featVecShape = shapeVec_6vs12m, 
                         title1 = "1-6 Months",
                         title2 = "7-12 Months",
-                        #groupNames = c("1-6 Months", "7-12 Months"),
                         mar = c(2,3,2,3), #margin
                         showTitle = TRUE, cexTitle = 2); p.net_age_6vs12m 
-
-# legend(x = 0.8, y = 1.25, pch=c(1,2), pt.cex = 2, cex = 1.2, bty = "n", y.intersp=0.5,x.intersp=0.5,#text.width=0.2,border = "black",
-#         legend = c("Bacterial Species","Eukaryotic Species"), horiz = FALSE)
 
 legend(-0.6, 1.1, cex = 1.2, title = "Estimated Correlation:", text.font = 2, y.intersp=0.7,x.intersp=0.4,
        legend = c("+","-"), lty = c(1,1), lwd = 1.5, col = c("#6fc7c7","#c4b3b9"),
@@ -586,7 +525,7 @@ plot(props_age_12vs18m,
 p.net_age_12vs18m = plot(props_age_12vs18m, 
                          edgeInvisPar = 1, 
                          negDiffCol = TRUE, #if TRUE, show both pos and neg
-                         posCol = "#6fc7c7", #"#008080",
+                         posCol = "#6fc7c7", 
                          negCol = "#c4b3b9",
                          edgeTranspLow = 0,
                          edgeTranspHigh = 20,
@@ -695,7 +634,7 @@ length(levels(as.factor(tax_table(ps.all)[, "Phylum"]))) #no. of colors needed
 p.net_age_6vs18m = plot(props_age_6vs18m, 
                         edgeInvisPar = 1, 
                         negDiffCol = TRUE, #if TRUE, show both pos and neg
-                        posCol = "#6fc7c7", #"#008080",
+                        posCol = "#6fc7c7", 
                         negCol = "#c4b3b9",
                         edgeTranspLow = 0,
                         edgeTranspHigh = 20,
