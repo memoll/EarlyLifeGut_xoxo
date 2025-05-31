@@ -91,7 +91,6 @@ props_age_6m <- netAnalyze(net_age_6m,
 
 summary(props_age_6m)
 props_age_6m$hubs$hubs1
-#based on sig comparison in e3
 sort(props_age_6m$centralities$degree1, decreasing = TRUE)
 sort(props_age_6m$centralities$close1, decreasing = TRUE)
 sort(props_age_6m$centralities$eigenv1, decreasing = TRUE)
@@ -188,7 +187,6 @@ props_age_12m <- netAnalyze(net_age_12m,
 
 summary(props_age_12m)
 props_age_12m$hubs$hubs1
-#based on sig comparison in e3
 sort(props_age_12m$centralities$degree1, decreasing = TRUE)
 sort(props_age_12m$centralities$close1, decreasing = TRUE)
 sort(props_age_12m$centralities$eigenv1, decreasing = TRUE)
@@ -277,7 +275,6 @@ props_age_18m <- netAnalyze(net_age_18m,
 
 summary(props_age_18m)
 props_age_18m$hubs$hubs1
-#based on sig comparison in e3
 sort(props_age_18m$centralities$degree1, decreasing = TRUE)
 sort(props_age_18m$centralities$close1, decreasing = TRUE)
 sort(props_age_18m$centralities$eigenv1, decreasing = TRUE)
