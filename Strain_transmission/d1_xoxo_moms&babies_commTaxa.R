@@ -826,5 +826,5 @@ gg.genera_csec = ggplot(ps3_aggregated_csec_gen, aes(x = INFANT_ID, y = Relative
         legend.text = element_text(face="italic",size = 25));gg.genera_csec
 
 #save ####
-save.image("~/Documents/xoxo_article/files/metaphlan4/d1_xoxo_moms&babies_comTaxa.RData")
+save.image("~/Documents/xoxo_article/files/metaphlan4/d1_xoxo_moms&babies_commTaxa.RData")
 
