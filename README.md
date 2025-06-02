@@ -2,7 +2,7 @@
 
 <p id="topic">
   <h2 id="type1">Analysis of the bacterial and eukaryotic communities </h2>
-  <h2 id="type2">Data type: Shotgun metagenomics and 18S amplicon sequencing data </h2>
+  <h3 id="type2">Data type: Shotgun metagenomics and 18S amplicon sequencing data </h3>
 </p>
 
 <p id="ls">
