@@ -1,6 +1,6 @@
 ###############################################################
 # Functional analysis of metagenomic data                     #
-# Data: HUMANN - xoxo                                         # 
+# Data: HUMAnN3 - xoxo                                        # 
 # Mona Parizadeh - May 2025                                   #
 ###############################################################
 
