@@ -58,7 +58,7 @@ mock %>%
   tax_glom(taxrank = "Genus", NArm=TRUE) %>% #remove NAs
   transform_sample_counts(function(x) {x/sum(x)} ) %>% # Transform to relative abundance
   plot_bar(fill="Genus") +
-  labs(title = "Bacteria genera present in the mock samples") +
+  labs(title = "Eukaryotic genera present in the mock samples") +
   xlab("Mock samples") + ylab("Relative Abundance") +
   theme(axis.text.x = element_text(size = 8, angle = 90, vjust = 0.5, hjust = 1),
         legend.position = "right")
@@ -66,7 +66,7 @@ mock %>%
   tax_glom(taxrank = "Species", NArm=TRUE) %>% #remove NAs
   transform_sample_counts(function(x) {x/sum(x)} ) %>% # Transform to relative abundance
   plot_bar(fill="Species") +
-  labs(title = "Bacteria species present in the mock samples") +
+  labs(title = "Eukaryotic species present in the mock samples") +
   xlab("Mock samples") + ylab("Relative Abundance") +
   theme(axis.text.x = element_text(size = 8, angle = 90, vjust = 0.5, hjust = 1),
         legend.position = "right")
