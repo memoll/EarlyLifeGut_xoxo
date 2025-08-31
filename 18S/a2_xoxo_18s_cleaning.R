@@ -9,6 +9,8 @@ library(phyloseq); packageVersion("phyloseq")
 library(vegan); packageVersion("vegan") 
 library(ggplot2); packageVersion("ggplot2") 
 library(tidyverse); packageVersion("tidyverse") 
+library(BiocGenerics)
+library(SummarizedExperiment)
 
 # Import data #### 
 setwd("~/Documents/xoxo_article/files/18s/")
